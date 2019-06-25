@@ -1,15 +1,23 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
-  "icons": [
-    {
-      "src": "favicon.ico",
-      "sizes": "64x64 32x32 24x24 16x16",
-      "type": "image/x-icon"
-    }
-  ],
-  "start_url": ".",
-  "display": "standalone",
-  "theme_color": "#000000",
-  "background_color": "#ffffff"
+  "name": "Urbanice-Niti-Offline",
+  "description": "Offline version of Urbanice Niti for creating a parcel card.",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "icons": {
+    "16": "favicon.png",
+    "48": "favicon.png",
+    "128": "favicon.png"
+  },
+  "browser_action": {
+    // "default_popup":"index.html",
+    "default_icon":"favicon.png",
+    "default_title": "Open the popup"
+  },
+  "background": 
+  {
+    "scripts":["app/background.js"]
+  }
+  ,
+  "permissions": ["storage","tabs","activeTab"],
+  "content_security_policy": "script-src 'self' 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU='; object-src 'self'"
 }

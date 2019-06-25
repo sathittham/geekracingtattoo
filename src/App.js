@@ -1,6 +1,12 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import Parcel from './containers/parcel';
+import {
+  BrowserRouter as Router,
+  Route,
+  Link
+} from 'react-router-dom'
 
 function App() {
   return (
@@ -10,14 +16,18 @@ function App() {
         <p>
           Edit <code>src/App.js</code> and save to reload.
         </p>
-        <a
+        {/* <a
           className="App-link"
           href="https://reactjs.org"
           target="_blank"
           rel="noopener noreferrer"
         >
           Learn React
-        </a>
+        </a> */}
+        <Router>
+          <Link to="/parcel">Parcel</Link>
+          <Route path="/parcel" component={Parcel} />
+        </Router>
       </header>
     </div>
   );

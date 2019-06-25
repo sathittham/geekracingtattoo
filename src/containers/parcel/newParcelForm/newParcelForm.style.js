@@ -5,9 +5,6 @@ const UbNewParcelWrapper = styled.div`
     height: auto;
     background-color: white;
     overflow: auto;
-    //border: 1px solid #d8d8d8;
-    padding: 20px 20px 20px 15px;
-    margin-bottom : 20px;
     display: flex;
     align-items: flex-start;
     flex-direction: column;
@@ -17,30 +14,15 @@ const UbNewParcelWrapper = styled.div`
         width: 100%;
         height: auto;
         background-color: white;
-        //padding: 20px 20px 20px 15px;
-        //margin-bottom : 20px;
         display: flex;
         justify-content: space-between;
         align-items: center;
         flex-direction: row;
 
-        @media only screen and (max-width: 600px) {
-            /* For mobile phones: */
-            flex-direction: column;
-            align-items: flex-start;
-          }
-        
-          @media only screen and (max-width: 767px) {
-            /* For tablets: */
-            flex-direction: column;
-            align-items: flex-start;
-          }
-        
-          @media only screen and (min-width: 767px) and (max-width: 990px) {
-            /* For desktop: */
-            flex-direction: row;
-            align-items: flex-start;
-          }
+    }
+
+    .ubFormInputWrapper{
+        flex:1;
     }
 
     .ubParcelList{

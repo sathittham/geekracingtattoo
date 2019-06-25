@@ -13,7 +13,7 @@ export default class index extends Component {
       <div>
           {/* <ParcelStyle> */}
             <Layout className="layout">
-                <Header>
+                {/* <Header>
                     <div className="logo" />
                     <Menu
                     theme="dark"
@@ -22,10 +22,10 @@ export default class index extends Component {
                     style={{ lineHeight: "64px" }}
                     >
                     <Menu.Item key="1">พิมพ์ใบรับพัสดุ</Menu.Item>
-                    <Menu.Item key="2">ส่งข้อมูลขึ้น Server </Menu.Item>
+                    <Menu.Item key="2">ส่งข้อมูลขึ้น Server</Menu.Item>
                     <Menu.Item key="3">ตั้งค่า</Menu.Item>
                     </Menu>
-                </Header>
+                </Header> */}
                 <Content style={{ padding: "0 50px" }}>
                     <Breadcrumb style={{ margin: "16px 0" }}>
                     <Breadcrumb.Item>Home</Breadcrumb.Item>
