@@ -139,16 +139,6 @@ export default class index extends Component {
       }
     ];
 
-    const data = [];
-    for (let i = 0; i < 46; i++) {
-      data.push({
-        parcelNo: i,
-        recipientUnitNo: i,
-        recipientName: `Edward King ${i}`,
-        importDate: `${moment()}`
-      });
-    }
-
     return (
       <div>
         <div

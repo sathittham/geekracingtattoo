@@ -17,7 +17,6 @@ class NewParcelForm extends Component {
     super(props);
     this.addParcel = this.addParcel.bind(this);
     this.state = {
-
       parcelInfo: [],
       newParcelObj:{},
       //Parcel Info
@@ -65,8 +64,9 @@ class NewParcelForm extends Component {
           DEBUG && console.log('NewParcelObj: ', this.state.newParcelObj);
 
           this.addParcel();
-          //this.handleAddParcel(this.state.newParcelObj);
-          //this.importParcel();
+
+          //Clear From
+          this.props.form.resetFields()
         })    
       }
     })
