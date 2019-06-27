@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { Table, Button, Tooltip, Modal,Popconfirm } from "antd";
 import { siteConfig } from "../../settings";
 import db from "./db";
+import PrintPdf from './printPdf';
 
 var moment = require("moment");
 require("moment/locale/th.js");
@@ -73,6 +74,34 @@ export default class index extends Component {
   //     this.setState({parcelInfo:newList});
   //   })
   // };
+
+
+  /***** HANDLE PRINT CONFIRM MODAL *****/
+  setModalPrintVisible(modalPrintVisible) {
+    //this.printOutRecords(this.state.selectedRowKeys);
+    this.setState({ modalPrintVisible });
+  }
+
+  handleOk = e => {
+    console.log(e);
+    this.setState({
+      loading: true,
+    });
+
+    setTimeout(() => {
+      this.setState({
+        modalPrintVisible: false,
+        loading: false,
+      });
+    }, 2000);
+  };
+
+  handleCancel = e => {
+    console.log(e);
+    this.setState({
+      modalPrintVisible: false,
+    });
+  };
 
   render() {
     const {
@@ -151,16 +180,16 @@ export default class index extends Component {
           รายการพัสดุ
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
-          <div style={{ alignSelf: "auto" }}>
+          <div style={{ alignSelf: "auto", paddingBottom:10 }}>
             <Button
               type="primary"
               //onClick={this.start}
               onClick={() => this.setModalPrintVisible(true)}
               disabled={!hasSelected}
               loading={loading}
-              icon="printer"
+              icon="file-pdf"
             >
-              พิมพ์
+              สร้าง PDF
             </Button>
             <Tooltip title="พิมพ์ได้สูงสุดครั้งละ 30 รายการ">
               <span style={{ marginLeft: 8 }}>
@@ -189,8 +218,8 @@ export default class index extends Component {
           footer={null}
           width={550}
         >
-          {/* {DEBUG && console.log('[MODAL] Modal Start!')} */}
-          {/* <PrintPdf printData={this.state.printOutObject} /> */}
+       
+          <PrintPdf printData={this.state.parcelInfo} /> 
         </Modal>
       </div>
     );
