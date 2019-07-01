@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { Input, Select, Button, Form, Row, Col } from "antd";
 import { siteConfig } from "../../settings";
+import db from "./db";
 
 var moment = require("moment");
 require("moment/locale/th.js");
@@ -18,14 +19,18 @@ class NewParcelForm extends Component {
     this.addParcel = this.addParcel.bind(this);
     this.state = {
       parcelInfo: [],
-      newParcelObj:{},
+      newParcelObj: {},
       //Parcel Info
       parcelNo: "",
       recipientUnitNo: "",
       recipientName: "",
       deliveryName: "",
       parcelType: "",
-      trackingNo: ""
+      trackingNo: "",
+      lastID: "",
+      lastParcelNo:"",
+      lastMMDD:"",
+      lastNo:"",
     };
   }
 
@@ -35,42 +40,252 @@ class NewParcelForm extends Component {
     //To disabled submit button at the beginning
     this.props.form.validateFields();
 
+    this.getParcelCount();
+
+    // let lastID = this.getLastParcelID();
+    // console.log('LAST ID:', lastID);
   }
 
-  addParcel(){
-    this.props.handleAddParcel(this.state.newParcelObj)
+  async addParcel() {
+    this.props.handleAddParcel(this.state.newParcelObj);
   }
 
-  
-  /****** HANDLER FUNCTIONS ******/
-  onSubmitHandler = (e) => {
-    e.preventDefault();
-    this.props.form.validateFields((err,values) => {
-      if(!err){
+  getParcelCount = () => {
+    // db.open()
+    // .catch(function (err) {
+    //   console.error('Failed to open db: ', (err.stack || err));
+    // });
+    // console.log("Version", db.verno);
 
+    var x = db.parcelInfo;
+    return x.count().then(function(c) {
+      console.log("Last Parcel: ", c);
+    });
+  };
+
+  // getLastParcel = () => {
+  //   DEBUG && console.log("getLastParcel");
+  //   db.parcelInfo
+  //     .orderBy("id")
+  //     .reverse()
+  //     .limit(1)
+  //     .toArray()
+  //     .then(results => {
+  //       DEBUG && console.log("GET LAST PARCEL: ", JSON.stringify(results));
+  //       if (results.length !== 0) {
+  //         this.setState(
+  //           {
+  //             lastID: results[0].id
+  //           },
+  //           () => {
+  //             DEBUG && console.log("Last Parcel ID: ", results[0].id);
+  //           }
+  //         );
+  //       } else
+  //         this.setState(
+  //           {
+  //             lastID: 0
+  //           },
+  //           () => {
+  //             DEBUG && console.log("Last Parcel ID: ", 0);
+  //           }
+  //         );
+  //     });
+  // };
+
+  getID() {
+    return new Promise((resolve, reject) => {
+      try {
+        db.parcelInfo
+          .orderBy("id")
+          .reverse()
+          .limit(1)
+          .toArray()
+          .then(results => {
+            resolve(results[0].id);
+          });
+      } catch (err) {
+        reject(console.log("Error", err));
+      }
+    });
+  }
+
+  getLastParcelNo() {
+    return new Promise((resolve, reject) => {
+      try {
+        db.parcelInfo
+          .orderBy("id")
+          .reverse()
+          .limit(1)
+          .toArray()
+          .then(results => {
+            //   lastID = results[0].id;
+            //   DEBUG && console.log("GET LAST PARCEL INFO: ", JSON.stringify(results));
+            //   if (results.length !== 0) {
+            //     lastID = results[0].id;
+            //     this.setState(
+            //       {
+            //         lastID: results[0].id
+            //       },
+            //       () => {
+            //         DEBUG && console.log("Last Parcel ID: ", results[0].id);
+            //         DEBUG && console.log("Last Parcel ID: ", lastID);
+            //       },
+            //       ()=>{
+            //       }
+            //     );
+            //   } else {
+            //     lastID = 0;
+            //     this.setState(
+            //       {
+            //         lastID: 0
+            //       },
+            //       () => {
+            //         DEBUG && console.log("Last Parcel ID: ", 0);
+            //         DEBUG && console.log("Last Parcel ID: ", 0);
+            //       }
+            //     );
+            //   }
+            // })
+            // .catch((error) => {
+            //   DEBUG && console.log("Catch values: ", error);
+            // })
+            resolve(results[0].parcelNo);
+            console.log("re = " + results[0].parcelNo);
+          });
+      } catch (err) {
+        reject(console.log("Error", err));
+      }
+    });
+  }
+
+  async getLastParcelID() {
+    DEBUG && console.log("getLastParcelID");
+    let lastParcelNo = await this.getLastParcelNo();
+    console.log("lastParcelNo = " + lastParcelNo);
+
+    let splitLastParcelNo = lastParcelNo.split("-");
+    
+    this.setState(
+      {
+        lastParcelNo: lastParcelNo,
+        lastMMDD: splitLastParcelNo[0],
+        lastNo: parseInt(splitLastParcelNo[1],10), //converts a string into an integer
+      },
+      () => {
+        DEBUG && console.log("lastParcelNo_State: ", this.state.lastParcelNo);
+        DEBUG && console.log("lastMMDD_State: ", this.state.lastMMDD);
+        DEBUG && console.log("lastNo_State: ", this.state.lastNo);
+      }
+    );
+
+    this.props.form.validateFields((err, values) => {
+      if (!err) {
         const parcelInfo = {
-          "parcelNo": "1906-1", //this.state.parcelNo,
-          "importDate": moment().format(),
+          parcelNo: `${moment().format("YYMM")}-${this.state.lastNo + 1}`, //this.state.parcelNo,
+          //parcelNo: this.state.lastParcelNo + 1,
+          importDate: moment().format(),
+          deleteFlag: false
         };
         //const newParcelNo = {parcelNo:this.state.parcelNo}
         //const newParcelObj = {...parcelInfo,...values};
 
-        DEBUG && console.log('Received values of form: ', values);
+        DEBUG && console.log("Received values of form: ", values);
 
-        this.setState({
-          newParcelObj: {...parcelInfo,...values}
-        },()=> {
-          DEBUG && console.log('parcelInfo: ', parcelInfo);
-          DEBUG && console.log('NewParcelObj: ', this.state.newParcelObj);
+        this.setState(
+          {
+            newParcelObj: { ...parcelInfo, ...values }
+          },
+          () => {
+            DEBUG && console.log("parcelInfo: ", parcelInfo);
+            DEBUG && console.log("NewParcelObj: ", this.state.newParcelObj);
 
-          this.addParcel();
+            //ADD TO DB
+            this.addParcel();
 
-          //Clear From
-          this.props.form.resetFields()
-        })    
+            //Clear From
+            this.props.form.resetFields();
+          }
+        );
       }
-    })
+    });
+
+    return lastParcelNo;
   }
+
+  // async handleGetLastParcel () {
+  //     var lastID = await this.getLastParcelID()
+  //     console.log('handleGetLastParcel = ' + lastID)
+  //     DEBUG && console.log('handleGetLastParcel:',lastID)
+  // }
+
+  /****** HANDLER FUNCTIONS ******/
+  onSubmitHandler = e => {
+    // let a = this.getID();
+    // console.log(a)
+
+    // let a = this.handleGetLastParcel();
+    // console.log(a)
+
+    //let a = this.getLastParcelID()
+    //   const re =  new Promise((resolve, reject) => {
+    //     try{
+    //       db.parcelInfo
+    //       .orderBy("id")
+    //       .reverse()
+    //       .limit(1)
+    //       .toArray()
+    //       .then(results => {
+    //       resolve(results[0].id)
+    //       console.log('re = ' + results[0].id)
+    //       return results[0].id;
+    //     })
+    //   } catch(err){
+    //     reject(console.log('Error',err))
+    //   }
+    // })
+    console.log("onSubmitHandler");
+    var lastParcelNoResult = this.getLastParcelID();
+    console.log("lastParcelNoResult called: " + lastParcelNoResult);
+
+    // var id = this.getLastParcelID().then(function(result) {
+    //   console.log('result',result)
+    // })
+
+    //console.log(getid)
+    //this.getID();
+
+    e.preventDefault();
+    // this.props.form.validateFields((err, values) => {
+    //   if (!err) {
+    //     const parcelInfo = {
+    //       // parcelNo: `${moment().format("YYMM")}-${this.state.lastID + 1}`, //this.state.parcelNo,
+    //       parcelNo: this.state.lastID+1,
+    //       importDate: moment().format(),
+    //       deleteFlag: false
+    //     };
+    //     //const newParcelNo = {parcelNo:this.state.parcelNo}
+    //     //const newParcelObj = {...parcelInfo,...values};
+
+    //     DEBUG && console.log("Received values of form: ", values);
+
+    //     this.setState(
+    //       {
+    //         newParcelObj: { ...parcelInfo, ...values }
+    //       },
+    //       () => {
+    //         DEBUG && console.log("parcelInfo: ", parcelInfo);
+    //         DEBUG && console.log("NewParcelObj: ", this.state.newParcelObj);
+
+    //         //this.addParcel();
+
+    //         //Clear From
+    //         this.props.form.resetFields();
+    //       }
+    //     );
+    //   }
+    // });
+  };
 
   /****** RENDER FUNCTIONS ******/
   render() {
@@ -133,14 +348,10 @@ class NewParcelForm extends Component {
                     }
                   ]
                 })(
-                  <Input
-                    style={{ minWidth: 130 }}
-                    placeholder="บ้านเลขที่"
-                  />
+                  <Input style={{ minWidth: 130 }} placeholder="บ้านเลขที่" />
                 )}
               </Form.Item>
             </Col>
-
 
             <Col xs={24} sm={12} md={8} lg={4} xl={4}>
               <Form.Item
@@ -155,10 +366,7 @@ class NewParcelForm extends Component {
                     }
                   ]
                 })(
-                  <Input
-                    style={{ minWidth: 130 }}
-                    placeholder="ชื่อผู้รับ"
-                  />
+                  <Input style={{ minWidth: 130 }} placeholder="ชื่อผู้รับ" />
                 )}
               </Form.Item>
             </Col>
@@ -213,20 +421,14 @@ class NewParcelForm extends Component {
                     }
                   ]
                 })(
-                  <Select
-                    placeholder="ประเภทพัสดุ"
-                    style={{ minWidth: 130 }}
-                  >
+                  <Select placeholder="ประเภทพัสดุ" style={{ minWidth: 130 }}>
                     <Option value="ซองจดหมาย"> ซองจดหมาย </Option>
                     <Option value="ซองเอกสาร"> ซองเอกสาร </Option>
                     <Option value="ห่อเล็ก"> ห่อเล็ก </Option>
                     <Option value="ห่อใหญ่"> ห่อใหญ่ </Option>
                     <Option value="กล่องเล็ก"> กล่องเล็ก </Option>
                     <Option value="กล่องใหญ่"> กล่องใหญ่ </Option>
-                    <Option value="กล่องใหญ่พิเศษ">
-                      {" "}
-                      กล่องใหญ่พิเศษ{" "}
-                    </Option>
+                    <Option value="กล่องใหญ่พิเศษ"> กล่องใหญ่พิเศษ </Option>
                     <Option value="OTHER"> อื่นๆ </Option>
                   </Select>
                 )}

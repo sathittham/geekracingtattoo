@@ -32,6 +32,7 @@ export default class index extends Component {
   getDataFromDB = () => {
     DEBUG && console.log('getDataFromDB');
     db.table("parcelInfo")
+      .filter((parcel) => parcel.deleteFlag === false)
       .toArray()
       .then(parcelInfo => {
         this.setState({ parcelInfo });
@@ -49,14 +50,45 @@ export default class index extends Component {
   };
 
   /****** HANDLE ADD PARCEL FUNCTIONS ******/
-  handleDeleteParcel = id => {
+  // handleDeleteParcel = id => {
+  //   db.table('parcelInfo')
+  //   .delete(id)
+  //   .then(() => {
+  //     const newList = this.state.parcelInfo.filter((parcel) => parcel.id !== id);
+  //     this.setState({parcelInfo:newList});
+  //   })    
+  // };
+
+   /****** HANDLE DELETE PARCEL FUNCTIONS ******/
+  handleDeleteParcel(id, deleteFlag) { 
     db.table('parcelInfo')
-    .delete(id)
-    .then(() => {
-      const newList = this.state.parcelInfo.filter((parcel) => parcel.id !== id);
-      this.setState({parcelInfo:newList});
-    })
-  };
+      .update(id, { deleteFlag })
+      .then(() => {
+        //const parcelInfoUpdate = this.state.parcelInfo.find((parcel) => parcel.id ===id);
+        const newList = [
+          ...this.state.parcelInfo.filter((parcel) => parcel.id !== id)
+          // ...this.state.parcelInfo.filter((parcel) => parcel.id !==id),
+          // Object.assign({},parcelInfoUpdate, { deleteFlag })
+        ];
+        this.setState({ parcelInfo: newList});
+      });
+  }
+
+   /****** HANDLE DELETE PARCEL FUNCTIONS ******/
+   handleClearTable() { 
+    db.table('parcelInfo')
+      .clear()
+      .then(() => {
+        DEBUG && console.log('handleClearTable');
+        //const parcelInfoUpdate = this.state.parcelInfo.find((parcel) => parcel.id ===id);
+        // const newList = [
+        //   ...this.state.parcelInfo.filter((parcel) => parcel.id !== id)
+        //   // ...this.state.parcelInfo.filter((parcel) => parcel.id !==id),
+        //   // Object.assign({},parcelInfoUpdate, { deleteFlag })
+        // ];
+        // this.setState({ parcelInfo: newList});
+      });
+  }
 
   render() {
     return (
@@ -70,6 +102,7 @@ export default class index extends Component {
           <ParcelList 
             parcelInfo={this.state.parcelInfo}
             handleDeleteParcel={this.handleDeleteParcel} 
+            handleClearTable={this.handleClearTable}
           />
         </div>
       </div>

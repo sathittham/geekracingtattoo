@@ -20,6 +20,7 @@ export default class index extends Component {
       //Table
       selectedRowKeys: [], // Check here to configure the default column
       pagination: {},
+      pageLimit: 30,
       // Selected
       selectedRowIndex: "",
       selectedRowRecord: "",
@@ -103,6 +104,7 @@ export default class index extends Component {
     });
   };
 
+
   render() {
     const {
       loading,
@@ -119,7 +121,7 @@ export default class index extends Component {
     const columns = [
       {
         title: "หมายเลขพัสดุ",
-        dataIndex: "parcelNo"
+        dataIndex: "parcelNo",
       },
       {
         title: "บ้านเลขที่",
@@ -159,7 +161,7 @@ export default class index extends Component {
           <span>
            { this.state.parcelInfo.length >= 1 ? 
             <div>
-              <Popconfirm title="ต้องการลบรายการนี้ใช่หรือไม่?" onConfirm={() => this.props.handleDeleteParcel(record.id)}>
+              <Popconfirm title="ต้องการลบรายการนี้ใช่หรือไม่?" onConfirm={() => this.props.handleDeleteParcel(record.id,true)}>
                 <a href="javascript:;">ลบ</a>
               </Popconfirm>
             </div>: null}
@@ -181,6 +183,15 @@ export default class index extends Component {
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <div style={{ alignSelf: "auto", paddingBottom:10 }}>
+          <Button
+              type="primary"
+              //onClick={this.start}
+              onClick={() => this.props.handleClearTable()}
+              loading={loading}
+              icon="delete"
+            >
+              ลบข้อมูลทั้งหมด
+            </Button>
             <Button
               type="primary"
               //onClick={this.start}
@@ -205,7 +216,7 @@ export default class index extends Component {
           rowSelection={rowSelection}
           columns={columns}
           dataSource={this.props.parcelInfo}
-          pagination={this.state.pagination}
+          pagination={{defaultPageSize: 30}}
           size="small"
         />
 
@@ -219,7 +230,7 @@ export default class index extends Component {
           width={550}
         >
        
-          <PrintPdf printData={this.state.parcelInfo} /> 
+          <PrintPdf printData={this.props.parcelInfo} /> 
         </Modal>
       </div>
     );

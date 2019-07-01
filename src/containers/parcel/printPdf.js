@@ -325,7 +325,7 @@ export default class printPdf extends Component {
                     "",
                     { text: "รหัสติดตามพัสดุ \n Tracking No." },
                     {
-                      text: this.props.printData[no].trackingNo.substring(0,20),
+                      text: this.props.printData[no].trackingNo ? this.props.printData[no].trackingNo.substring(0,20): "-",
                     },
                     "",
                     { text: "ขนส่ง \n Delivery" },
@@ -381,7 +381,6 @@ export default class printPdf extends Component {
 
   /***** PRINT PARCEL TABLE => GENERATE PDF PRINOUT *****/
   Print2TablePDF = () => {
-    const { communityName, userFirstname, userLastname, pmcName } = this.state;
 
     var externalDataRetrievedFromServer3 = [];
 
@@ -391,18 +390,16 @@ export default class printPdf extends Component {
     //Reverse Print order
     for (var i = 0; i < totalRow; i++) {
       externalDataRetrievedFromServer3.push({
-        parcelNo: this.props.printData[i].parcelAliasName,
+        parcelNo: this.props.printData[i].parcelNo,
         importDate: moment(this.props.printData[i].importDate).format(
           "DD/MM/YY"
         ),
-        deliveryName: this.props.printData[
-          i
-        ].deliveryName.substring(0, 20),
-        parcelType: this.props.printData[i].parcelDisplayType,
+        deliveryName: this.props.printData[i].deliveryName.substring(0, 20),
+        parcelType: this.props.printData[i].parcelType,
         recipientUnitNo: this.props.printData[i].recipientUnitNo,
         recipientName: this.props.printData[i].recipientName.substring(0, 20),
-        importDescription: this.props.printData[i].importDescription
-          ? this.props.printData[i].importDescription.substring(0, 18)
+        trackingNo: this.props.printData[i].trackingNo
+          ? this.props.printData[i].trackingNo.substring(0, 18)
           : "",
         receiverName: this.props.printData[i].receiverName
           ? this.props.printData[i].receiverName.substring(0, 18)
@@ -437,7 +434,7 @@ export default class printPdf extends Component {
             border: [false, false, false, false]
           },
           {
-            text: "โครงการ " + communityName,
+            text: "โครงการ: ________________________",
             fontSize: 18,
             bold: true,
             alignment: "center",
@@ -469,7 +466,7 @@ export default class printPdf extends Component {
           { text: "", style: "tableHeader" },
           { text: "", style: "tableHeader" },
           {
-            text: "ผู้ทำรายงาน: " + userFirstname.substring(0, 17),
+            text: "ผู้ทำรายงาน: __________________",
             fontSize: 12,
             colSpan: 2,
             border: [false, false, false, false]
@@ -495,7 +492,7 @@ export default class printPdf extends Component {
           { text: "", style: "tableHeader" },
           { text: "", style: "tableHeader" },
           {
-            text: "บริหารโดย: " + pmcName.substring(0, 18),
+            text: "บริหารโดย: ___________________",
             fontSize: 12,
             colSpan: 2,
             border: [false, false, false, false]
@@ -676,7 +673,7 @@ export default class printPdf extends Component {
           "parcelType",
           "recipientUnitNo",
           "recipientName",
-          "importDescription",
+          "trackingNo",
           "receiverName",
           "exportDate",
           "remark"
@@ -761,12 +758,12 @@ export default class printPdf extends Component {
                 สร้างรายงานการรับจดหมาย/พัสดุลงทะเบียน (PDF)
               </Button>
             </div>
-            <div>
+            {/* <div>
               รูปแบบการแสดงผล PDF (ปัจจุบัน):{" "}
               {this.state.pdfPrintType === "open"
                 ? "แสดงเป็น Tab ใหม่"
                 : "ดาวโหลดเป็นไฟล์"}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

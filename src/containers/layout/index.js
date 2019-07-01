@@ -21,7 +21,7 @@ export default class index extends Component {
                     style={{ lineHeight: "64px" }}
                     >
                     <Menu.Item key="1">จัดการพัสดุ</Menu.Item>
-                    <Menu.Item key="2">ตั้งค่า</Menu.Item>
+                    {/* <Menu.Item key="2">ตั้งค่า</Menu.Item> */}
                     </Menu>
                 </Header>
                 <Content style={{ padding: "0 50px" }}>
