@@ -35,7 +35,7 @@ export default class index extends Component {
       .filter((parcel) => parcel.deleteFlag === false)
       .toArray()
       .then(parcelInfo => {
-        this.setState({ parcelInfo });
+        this.setState({ parcelInfo, });
       });
   };
 
@@ -44,7 +44,7 @@ export default class index extends Component {
     db.table("parcelInfo")
       .add(parcelData)
       .then((id) => {
-        const newList = [...this.state.parcelInfo, Object.assign({},parcelData,{ id })]
+        const newList = [Object.assign({},parcelData,{ id }),...this.state.parcelInfo]
         this.setState({ parcelInfo: newList });
       });
   };
@@ -96,6 +96,7 @@ export default class index extends Component {
         <div style={{ paddingBottom: 20 }}>
           <NewParcelForm 
             handleAddParcel={this.handleAddParcel}
+            handleClearTable={this.handleClearTable}
           />
         </div>
         <div>

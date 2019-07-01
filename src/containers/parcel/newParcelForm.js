@@ -27,24 +27,49 @@ class NewParcelForm extends Component {
       deliveryName: "",
       parcelType: "",
       trackingNo: "",
-      lastID: "",
       lastParcelNo:"",
       lastMMDD:"",
       lastNo:"",
+      currentYYMMDD: moment().format("YYMMDD"), //.add(1,'d')
     };
   }
 
   /****** ComponentDidMount FUNCTIONS ******/
-  componentDidMount() {
+  async componentDidMount() {
     DEBUG && console.log("componentDidMount");
     //To disabled submit button at the beginning
     this.props.form.validateFields();
 
+    DEBUG && console.log('currentYYMMDD:', this.state.currentYYMMDD);
+
+    var lastParcel = await this.getLastParcelID();
+    DEBUG && console.log('lastParcel: ', JSON.stringify(lastParcel[0]));
+
+    if(lastParcel.length > 0){
+      DEBUG && console.log("lastParcel importedDate: " + JSON.stringify(lastParcel[0].importDate));
+      DEBUG && console.log('TODAY: ', moment(lastParcel[0].importDate).format('YYMMDD'));
+      if(moment(lastParcel[0].importDate).format('YYMMDD') !== this.state.currentYYMMDD){
+        DEBUG && console.log('CLEAR DATA TABLE!');
+        this.props.handleClearTable();
+      } else {
+        DEBUG && console.log('SAME DAY');
+      }
+    } else {
+      DEBUG && console.log('NEW ITEM');
+    }
+  }
+
+   /****** ComponentWillMount FUNCTIONS ******/
+   componentWillMount() {
+    DEBUG && console.log("componentWillMount");
+
+    //get parcel count
     this.getParcelCount();
 
-    // let lastID = this.getLastParcelID();
-    // console.log('LAST ID:', lastID);
-  }
+
+
+
+   }
 
   async addParcel() {
     this.props.handleAddParcel(this.state.newParcelObj);
@@ -59,7 +84,7 @@ class NewParcelForm extends Component {
 
     var x = db.parcelInfo;
     return x.count().then(function(c) {
-      console.log("Last Parcel: ", c);
+      DEBUG && console.log("PARCEL COUNT: ", c);
     });
   };
 
@@ -105,7 +130,7 @@ class NewParcelForm extends Component {
             resolve(results[0].id);
           });
       } catch (err) {
-        reject(console.log("Error", err));
+        reject(DEBUG && console.log("Error", err));
       }
     });
   }
@@ -119,70 +144,56 @@ class NewParcelForm extends Component {
           .limit(1)
           .toArray()
           .then(results => {
-            //   lastID = results[0].id;
-            //   DEBUG && console.log("GET LAST PARCEL INFO: ", JSON.stringify(results));
-            //   if (results.length !== 0) {
-            //     lastID = results[0].id;
-            //     this.setState(
-            //       {
-            //         lastID: results[0].id
-            //       },
-            //       () => {
-            //         DEBUG && console.log("Last Parcel ID: ", results[0].id);
-            //         DEBUG && console.log("Last Parcel ID: ", lastID);
-            //       },
-            //       ()=>{
-            //       }
-            //     );
-            //   } else {
-            //     lastID = 0;
-            //     this.setState(
-            //       {
-            //         lastID: 0
-            //       },
-            //       () => {
-            //         DEBUG && console.log("Last Parcel ID: ", 0);
-            //         DEBUG && console.log("Last Parcel ID: ", 0);
-            //       }
-            //     );
-            //   }
-            // })
-            // .catch((error) => {
-            //   DEBUG && console.log("Catch values: ", error);
-            // })
-            resolve(results[0].parcelNo);
-            console.log("re = " + results[0].parcelNo);
+            resolve(results);  
+            DEBUG && console.log("results = " + results);
+            DEBUG && console.log("results = " + JSON.stringify(results));
           });
       } catch (err) {
-        reject(console.log("Error", err));
+        reject(DEBUG && console.log("Error", err));
       }
     });
   }
 
   async getLastParcelID() {
     DEBUG && console.log("getLastParcelID");
-    let lastParcelNo = await this.getLastParcelNo();
-    console.log("lastParcelNo = " + lastParcelNo);
 
-    let splitLastParcelNo = lastParcelNo.split("-");
-    
-    this.setState(
-      {
-        lastParcelNo: lastParcelNo,
-        lastMMDD: splitLastParcelNo[0],
-        lastNo: parseInt(splitLastParcelNo[1],10), //converts a string into an integer
-      },
-      () => {
-        DEBUG && console.log("lastParcelNo_State: ", this.state.lastParcelNo);
-        DEBUG && console.log("lastMMDD_State: ", this.state.lastMMDD);
-        DEBUG && console.log("lastNo_State: ", this.state.lastNo);
-      }
-    );
+    let lastParcelNo = await this.getLastParcelNo();
+    //DEBUG && console.log("lastParcelNo = " + JSON.stringify(lastParcelNo));
+ 
+    if(lastParcelNo.length > 0){
+      DEBUG && console.log("lastParcelNo = " + JSON.stringify(lastParcelNo));
+      let splitLastParcelNo = lastParcelNo[0].parcelNo.split("-");
+      this.setState(
+        {
+          lastParcelNo: lastParcelNo,
+          lastMMDD: splitLastParcelNo[0],
+          lastNo: parseInt(splitLastParcelNo[1],10), //converts a string into an integer
+        },
+        () => {
+          DEBUG && console.log("lastParcelNo_State: ", this.state.lastParcelNo);
+          DEBUG && console.log("lastMMDD_State: ", this.state.lastMMDD);
+          DEBUG && console.log("lastNo_State: ", this.state.lastNo);
+        }
+      );
+    } else {
+      //First Parcel of the day
+      DEBUG && console.log("FIRST PARCEL!" );
+      this.setState(
+        {
+          lastMMDD: 0,
+          lastNo: 0,
+        },
+        () => {
+          DEBUG && console.log("lastMMDD_State: ", this.state.lastMMDD);
+          DEBUG && console.log("lastNo_State: ", this.state.lastNo);
+        }
+      );
+    }
 
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const parcelInfo = {
-          parcelNo: `${moment().format("YYMM")}-${this.state.lastNo + 1}`, //this.state.parcelNo,
+          parcelNo: `${moment().format("YYMMDD")}-${this.state.lastNo + 1}`, //this.state.parcelNo,
           //parcelNo: this.state.lastParcelNo + 1,
           importDate: moment().format(),
           deleteFlag: false

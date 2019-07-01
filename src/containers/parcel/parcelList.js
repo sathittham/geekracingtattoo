@@ -25,22 +25,36 @@ export default class index extends Component {
       selectedRowIndex: "",
       selectedRowRecord: "",
       selectedParcelNo: "",
-      printOutObject: []
+      printOutObject: [],
+      parcelItem:[],
+      //Filter, sorted
+      filteredInfo: null,
+      sortedInfo: null,
     };
   }
 
-    /****** ComponentWillMount FUNCTIONS ******/
-    componentWillMount() {
-      DEBUG && console.log("componentWillMount");
-  
-      //Get Data from DB
-      //this.getDataFromDB();
-    }
+  /****** ComponentWillMount FUNCTIONS ******/
+  componentWillMount() {
+    DEBUG && console.log("componentWillMount");
 
-    componentDidMount() {
-      //Get Data from DB
-      this.getDataFromDB();
+    //Get Data from DB
+    //this.getDataFromDB();
+  }
+
+  /****** componentDidMount FUNCTIONS ******/
+  componentDidMount() {
+    //Get Data from DB
+    this.getDataFromDB();
+  }
+
+  /****** componentWillReceiveProps FUNCTIONS ******/
+  componentWillReceiveProps(nextProps) {
+    DEBUG && console.log('thisProps_parcelInfo', this.props.parcelInfo);
+    DEBUG && console.log('nextProps_parcelInfo', nextProps.parcelInfo);
+    if(nextProps.parcelInfo !== this.props.parcelInfo){
+      this.setState({parcelInfo:nextProps.parcelInfo});
     }
+  }
 
   /****** GET LOCAL DATABASE INFO FUNCTIONS ******/
   getDataFromDB = () => {
@@ -63,8 +77,8 @@ export default class index extends Component {
   };
 
   onSelectChange = selectedRowKeys => {
-    console.log("selectedRowKeys changed: ", selectedRowKeys);
-    this.setState({ selectedRowKeys });
+    DEBUG && console.log("selectedRowKeys changed: ", selectedRowKeys);
+    this.setState({ selectedRowKeys});
   };
 
   // handleDeleteParcel = id => {
@@ -79,7 +93,7 @@ export default class index extends Component {
 
   /***** HANDLE PRINT CONFIRM MODAL *****/
   setModalPrintVisible(modalPrintVisible) {
-    //this.printOutRecords(this.state.selectedRowKeys);
+    this.printOutRecords(this.state.selectedRowKeys);
     this.setState({ modalPrintVisible });
   }
 
@@ -101,7 +115,57 @@ export default class index extends Component {
     console.log(e);
     this.setState({
       modalPrintVisible: false,
+      printOutObject: []
     });
+  };
+
+   /***** HANDLE TABLE CHANGE*****/
+  // handleTableChange = (pagination, filters, sorter) => {
+  //   DEBUG && console.log('Various parameters', pagination, filters, sorter);
+  //   this.setState({
+  //     filteredInfo: filters,
+  //     sortedInfo: sorter,
+  //   });
+  // };
+
+  clearFilters = () => {
+    this.setState({ filteredInfo: null });
+  };
+
+  clearAll = () => {
+    this.setState({
+      filteredInfo: null,
+      sortedInfo: null,
+    });
+  };
+
+  setAgeSort = () => {
+    this.setState({
+      sortedInfo: {
+        order: 'descend',
+        columnKey: 'age',
+      },
+    });
+  };
+
+  /***** HPRINT OUT RECORDS *****/
+  printOutRecords = selectedRowKeys => {
+    const { printOutObject } = this.state;
+    DEBUG && console.log("PrintOutRecords");
+    DEBUG && console.log("PrintOutRecords_selectRowKeys", selectedRowKeys);
+
+    selectedRowKeys.forEach(selectedRowKey => {
+      printOutObject.push(this.state.parcelInfo[selectedRowKey]);
+      DEBUG && console.log(
+        "PrintOutRecords[" +
+          selectedRowKey +
+          "]" +
+          JSON.stringify(this.state.parcelInfo[selectedRowKey])
+      );
+    });
+    DEBUG && console.log("PrintOutRecords_printOutObject", printOutObject);
+    this.setState({ printOutObject });
+    return printOutObject;
   };
 
 
@@ -111,6 +175,10 @@ export default class index extends Component {
       modalPrintVisible,
       selectedRowKeys
     } = this.state;
+
+    let { sortedInfo, filteredInfo } = this.state;
+    sortedInfo = sortedInfo || {};
+    filteredInfo = filteredInfo || {};
 
     const rowSelection = {
       selectedRowKeys,
@@ -122,6 +190,7 @@ export default class index extends Component {
       {
         title: "หมายเลขพัสดุ",
         dataIndex: "parcelNo",
+        sorter: (a,b) => a.parcelNo - b.parcelNo,
       },
       {
         title: "บ้านเลขที่",
@@ -171,6 +240,7 @@ export default class index extends Component {
     ];
 
     return (
+
       <div>
         <div
           style={{
@@ -180,6 +250,9 @@ export default class index extends Component {
           }}
         >
           รายการพัสดุ
+        </div>
+        <div>
+          รายการพัสดุ ประจำวันที่ {moment().add(543, "years").format('ll')} ทั้งหมด {this.props.parcelInfo.length} รายการ 
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <div style={{ alignSelf: "auto", paddingBottom:10 }}>
@@ -217,6 +290,7 @@ export default class index extends Component {
           columns={columns}
           dataSource={this.props.parcelInfo}
           pagination={{defaultPageSize: 30}}
+          //onChange={this.handleTableChange}
           size="small"
         />
 
@@ -230,7 +304,7 @@ export default class index extends Component {
           width={550}
         >
        
-          <PrintPdf printData={this.props.parcelInfo} /> 
+          <PrintPdf printData={this.state.printOutObject} /> 
         </Modal>
       </div>
     );
