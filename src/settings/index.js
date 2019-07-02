@@ -4,8 +4,8 @@ const siteConfig = {
     siteName: 'Urbanice Niti Offline',
     siteIcon: urbaniceLogo, // //'ion-flash',
     footerText: 'Urbanice Niti Offline ©2019 Created by Urbanice.App',
-    version: '(0.6.24(1) beta)',
-    DEBUG: true, //false, true
+    version: '(0.7.1(1) beta)',
+    DEBUG: false, //false, true
   };
 
   export { siteConfig };

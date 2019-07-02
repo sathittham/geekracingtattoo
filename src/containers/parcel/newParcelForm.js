@@ -30,7 +30,7 @@ class NewParcelForm extends Component {
       lastParcelNo:"",
       lastMMDD:"",
       lastNo:"",
-      currentYYMMDD: moment().format("YYMMDD"), //.add(1,'d')
+      currentYYMM: moment().format("YYMM"), //.add(1,'d') //.add(1,'months')
     };
   }
 
@@ -40,22 +40,22 @@ class NewParcelForm extends Component {
     //To disabled submit button at the beginning
     this.props.form.validateFields();
 
-    DEBUG && console.log('currentYYMMDD:', this.state.currentYYMMDD);
+    DEBUG && console.log('currentYYMM:', this.state.currentYYMM);
 
     var lastParcel = await this.getLastParcelID();
     DEBUG && console.log('lastParcel: ', JSON.stringify(lastParcel[0]));
 
     if(lastParcel.length > 0){
       DEBUG && console.log("lastParcel importedDate: " + JSON.stringify(lastParcel[0].importDate));
-      DEBUG && console.log('TODAY: ', moment(lastParcel[0].importDate).format('YYMMDD'));
-      if(moment(lastParcel[0].importDate).format('YYMMDD') !== this.state.currentYYMMDD){
+      DEBUG && console.log('TODAY: ', moment(lastParcel[0].importDate).format('YYMM'));
+      if(moment(lastParcel[0].importDate).format('YYMM') !== this.state.currentYYMM){
         DEBUG && console.log('CLEAR DATA TABLE!');
         this.props.handleClearTable();
       } else {
-        DEBUG && console.log('SAME DAY');
+        DEBUG && console.log('SAME MONTH');
       }
     } else {
-      DEBUG && console.log('NEW ITEM');
+      DEBUG && console.log('NEW ITEM of the Month');
     }
   }
 
@@ -193,7 +193,7 @@ class NewParcelForm extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) {
         const parcelInfo = {
-          parcelNo: `${moment().format("YYMMDD")}-${this.state.lastNo + 1}`, //this.state.parcelNo,
+          parcelNo: `${moment().format("YYMM")}-${this.state.lastNo + 1}`, //this.state.parcelNo,
           //parcelNo: this.state.lastParcelNo + 1,
           importDate: moment().format(),
           deleteFlag: false

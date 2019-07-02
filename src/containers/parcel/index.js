@@ -5,6 +5,8 @@ import db from "./db";
 import NewParcelForm from "./newParcelForm";
 import ParcelList from "./parcelList";
 
+var moment = require("moment");
+require("moment/locale/th.js");
 
 const DEBUG = siteConfig.DEBUG;
 
@@ -32,7 +34,7 @@ export default class index extends Component {
   getDataFromDB = () => {
     DEBUG && console.log('getDataFromDB');
     db.table("parcelInfo")
-      .filter((parcel) => parcel.deleteFlag === false)
+      .filter((parcel) => parcel.deleteFlag === false && moment(parcel.importDate).format('YYMM') === moment().format('YYMM'))
       .toArray()
       .then(parcelInfo => {
         this.setState({ parcelInfo, });
@@ -45,7 +47,7 @@ export default class index extends Component {
       .add(parcelData)
       .then((id) => {
         const newList = [Object.assign({},parcelData,{ id }),...this.state.parcelInfo]
-        this.setState({ parcelInfo: newList });
+        this.setState({ parcelInfo: newList.reverse() });
       });
   };
 
@@ -101,7 +103,7 @@ export default class index extends Component {
         </div>
         <div>
           <ParcelList 
-            parcelInfo={this.state.parcelInfo}
+            parcelInfo={this.state.parcelInfo.reverse()}
             handleDeleteParcel={this.handleDeleteParcel} 
             handleClearTable={this.handleClearTable}
           />

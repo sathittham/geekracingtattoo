@@ -47,7 +47,7 @@ export default class printPdf extends Component {
       parcelStartTime: "8:00",
       parcelEndTime: "19:00",
       printList: [],
-      pdfPrintType: "open", //open, download
+      pdfPrintType: "download", //open, download
       warningText: "",
       //GET COMM PREF
       responseData: "",

@@ -119,34 +119,6 @@ export default class index extends Component {
     });
   };
 
-   /***** HANDLE TABLE CHANGE*****/
-  // handleTableChange = (pagination, filters, sorter) => {
-  //   DEBUG && console.log('Various parameters', pagination, filters, sorter);
-  //   this.setState({
-  //     filteredInfo: filters,
-  //     sortedInfo: sorter,
-  //   });
-  // };
-
-  clearFilters = () => {
-    this.setState({ filteredInfo: null });
-  };
-
-  clearAll = () => {
-    this.setState({
-      filteredInfo: null,
-      sortedInfo: null,
-    });
-  };
-
-  setAgeSort = () => {
-    this.setState({
-      sortedInfo: {
-        order: 'descend',
-        columnKey: 'age',
-      },
-    });
-  };
 
   /***** HPRINT OUT RECORDS *****/
   printOutRecords = selectedRowKeys => {
@@ -176,9 +148,6 @@ export default class index extends Component {
       selectedRowKeys
     } = this.state;
 
-    let { sortedInfo, filteredInfo } = this.state;
-    sortedInfo = sortedInfo || {};
-    filteredInfo = filteredInfo || {};
 
     const rowSelection = {
       selectedRowKeys,
@@ -190,7 +159,6 @@ export default class index extends Component {
       {
         title: "หมายเลขพัสดุ",
         dataIndex: "parcelNo",
-        sorter: (a,b) => a.parcelNo - b.parcelNo,
       },
       {
         title: "บ้านเลขที่",
@@ -256,7 +224,7 @@ export default class index extends Component {
         </div>
         <div style={{ display: "flex", justifyContent: "flex-end" }}>
           <div style={{ alignSelf: "auto", paddingBottom:10 }}>
-          <Button
+          {/* <Button
               type="primary"
               //onClick={this.start}
               onClick={() => this.props.handleClearTable()}
@@ -264,7 +232,7 @@ export default class index extends Component {
               icon="delete"
             >
               ลบข้อมูลทั้งหมด
-            </Button>
+            </Button> */}
             <Button
               type="primary"
               //onClick={this.start}
