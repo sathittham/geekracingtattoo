@@ -94,7 +94,7 @@ export default class index extends Component {
 
   render() {
     return (
-      <div style={{ background: "#fff", padding: 20 }}>
+      <div style={{ background: "#fff", padding: 20 ,height:"88vh"}}>
         <div style={{ paddingBottom: 20 }}>
           <NewParcelForm 
             handleAddParcel={this.handleAddParcel}

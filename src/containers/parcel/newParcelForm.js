@@ -344,28 +344,33 @@ class NewParcelForm extends Component {
           )
         </div>
 
-        <Form layout="inline" onSubmit={this.onSubmitHandler}>
-          <Row gutter={8}>
+        <Form layout="vertical" onSubmit={this.onSubmitHandler}>
+          <Row type="flex" justify="space-between" align="bottom" gutter={16}>
             <Col xs={24} sm={12} md={8} lg={4} xl={4}>
               <Form.Item
+                label="บ้านเลขที่"
                 validateStatus={recipientUnitNoError ? "error" : ""}
                 help={recipientUnitNoError || ""}
               >
                 {getFieldDecorator("recipientUnitNo", {
                   rules: [
                     {
+                      pattern: new RegExp(/^\d+(\/\d+)?$/),
                       required: true,
-                      message: "ระบุบ้านเลขที่"
+                      message: "ระบุบ้านเลขที่เช่น 1 หรือ 1/1"
                     }
                   ]
                 })(
-                  <Input style={{ minWidth: 130 }} placeholder="บ้านเลขที่" />
+                  <Input 
+                    //style={{ minWidth: 130 }} 
+                    placeholder="บ้านเลขที่" />
                 )}
               </Form.Item>
             </Col>
 
             <Col xs={24} sm={12} md={8} lg={4} xl={4}>
               <Form.Item
+                label="ชื่อผู้รับ"
                 validateStatus={recipientNameError ? "error" : ""}
                 help={recipientNameError || ""}
               >
@@ -377,13 +382,16 @@ class NewParcelForm extends Component {
                     }
                   ]
                 })(
-                  <Input style={{ minWidth: 130 }} placeholder="ชื่อผู้รับ" />
+                  <Input 
+                    //style={{ minWidth: 130 }} 
+                    placeholder="ชื่อผู้รับ" />
                 )}
               </Form.Item>
             </Col>
 
             <Col xs={24} sm={12} md={8} lg={4} xl={4}>
               <Form.Item
+                label="บริการขนส่ง"
                 validateStatus={deliveryNameError ? "error" : ""}
                 help={deliveryNameError || ""}
               >
@@ -398,7 +406,7 @@ class NewParcelForm extends Component {
                 })(
                   <Select
                     placeholder="บริการขนส่ง"
-                    style={{ minWidth: 130 }}
+                    //style={{ minWidth: 130 }}
                     // value={this.state.deliveryName}
                     // onChange = {this.deliveryNameHandler}
                   >
@@ -419,6 +427,7 @@ class NewParcelForm extends Component {
 
             <Col xs={24} sm={12} md={8} lg={4} xl={4}>
               <Form.Item
+                label="ประเภทพัสดุ"
                 validateStatus={parcelTypeError ? "error" : ""}
                 help={parcelTypeError || ""}
               >
@@ -432,7 +441,10 @@ class NewParcelForm extends Component {
                     }
                   ]
                 })(
-                  <Select placeholder="ประเภทพัสดุ" style={{ minWidth: 130 }}>
+                  <Select 
+                    // style={{ minWidth: 130 }}
+                    placeholder="ประเภทพัสดุ" 
+                    >
                     <Option value="ซองจดหมาย"> ซองจดหมาย </Option>
                     <Option value="ซองเอกสาร"> ซองเอกสาร </Option>
                     <Option value="ห่อเล็ก"> ห่อเล็ก </Option>
@@ -450,19 +462,21 @@ class NewParcelForm extends Component {
 
             <Col xs={24} sm={12} md={8} lg={4} xl={4}>
               <Form.Item
+                label="เลขติดตามพัสดุ"
                 validateStatus={trackingNoError ? "error" : ""}
                 help={trackingNoError || ""}
               >
                 {getFieldDecorator("trackingNo", {
                   rules: [
                     {
+                      pattern: new RegExp("^[a-zA-Z0-9$@$!%*?&#^-_.=+]+$"),
                       required: false,
-                      message: "ระบุเลขติดตามพัสดุ"
+                      message: "เฉพาะภาษาอังกฤษและตัวเลขเท่านั้น!"
                     }
                   ]
                 })(
                   <Input
-                    style={{ minWidth: 130 }}
+                    //style={{ minWidth: 130 }}
                     placeholder="เลขติดตามพัสดุ"
                     // value={textTracking}
                     // value={this.state.trackingNo}
