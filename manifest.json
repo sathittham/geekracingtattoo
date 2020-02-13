@@ -1,0 +1,21 @@
+{
+  "name": "Urbanice-Niti-Offline",
+  "description": "Offline version of Urbanice Niti for creating a parcel card.",
+  "version": "0.0.1",
+  "manifest_version": 2,
+  "icons": {
+    "16": "favicon.png",
+    "48": "favicon.png",
+    "128": "favicon.png"
+  },
+  "browser_action": {
+    "default_icon":"favicon.png"
+  },
+  "background": 
+  {
+    "scripts":["app/background.js"]
+  }
+  ,
+  "permissions": ["storage","tabs","activeTab"],
+  "content_security_policy": "script-src 'self' 'unsafe-eval' object-src 'self 'sha256-5As4+3YpY62+l38PsxCEkjB1R4YtyktBtRScTJ3fyLU='; object-src 'self'"
+}
