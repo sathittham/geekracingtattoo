@@ -1,0 +1,32 @@
+/* .ant-table{
+  border: 3px solid #eee !important;
+} */
+
+/* table, th, td{
+  border: 3px solid black !important;
+} */
+.ant-table-footer {
+    background-color: #ddd;
+    padding: 0 !important;
+}
+
+.ant-table-title {
+ background-color: #fff;
+    padding: 0 !important;
+}
+
+.ant-table-row  .ant-table-row-level-0 {
+    padding: 0 !important;
+  }
+
+  td{
+    padding: 0 !important;
+  }
+
+  th{
+    padding: 0 !important;
+    background-color: #fff !important;
+    text-align: center !important;
+    font-size: 10px;
+  }
+  

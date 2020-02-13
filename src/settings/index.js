@@ -1,10 +1,10 @@
-import urbaniceLogo from '../../src/image/logo_urbanice_white.png'
+import geekRunnersLogo from '../../src/image/GR_Logo_64.png'
 
 const siteConfig = {
-    siteName: 'Urbanice Niti Offline',
-    siteIcon: urbaniceLogo, // //'ion-flash',
-    footerText: 'Urbanice Niti Offline ©2019 Created by Urbanice.App',
-    version: '(0.7.15(1) beta)',
+    siteName: 'GeekRunners',
+    siteIcon: geekRunnersLogo, // //'ion-flash',
+    footerText: 'GeekRunners-GeekRacing ©2020 Created by GeekRunners.com',
+    version: '(0.1.1(1) beta)',
     DEBUG: false, //false, true
   };
 
