@@ -1,18 +1,18 @@
 {
   "files": {
-    "main.css": "/geekracingtattoo/static/css/main.e6b9b06c.chunk.css",
-    "main.js": "/geekracingtattoo/static/js/main.5f2c6461.chunk.js",
-    "main.js.map": "/geekracingtattoo/static/js/main.5f2c6461.chunk.js.map",
+    "main.css": "/geekracingtattoo/static/css/main.061c3823.chunk.css",
+    "main.js": "/geekracingtattoo/static/js/main.c8b334b6.chunk.js",
+    "main.js.map": "/geekracingtattoo/static/js/main.c8b334b6.chunk.js.map",
     "runtime~main.js": "/geekracingtattoo/static/js/runtime~main.7ab5d70d.js",
     "runtime~main.js.map": "/geekracingtattoo/static/js/runtime~main.7ab5d70d.js.map",
-    "static/css/2.0cdb9ae6.chunk.css": "/geekracingtattoo/static/css/2.0cdb9ae6.chunk.css",
-    "static/js/2.75c1b652.chunk.js": "/geekracingtattoo/static/js/2.75c1b652.chunk.js",
-    "static/js/2.75c1b652.chunk.js.map": "/geekracingtattoo/static/js/2.75c1b652.chunk.js.map",
+    "static/css/2.289c7550.chunk.css": "/geekracingtattoo/static/css/2.289c7550.chunk.css",
+    "static/js/2.7bfd27e4.chunk.js": "/geekracingtattoo/static/js/2.7bfd27e4.chunk.js",
+    "static/js/2.7bfd27e4.chunk.js.map": "/geekracingtattoo/static/js/2.7bfd27e4.chunk.js.map",
     "index.html": "/geekracingtattoo/index.html",
-    "precache-manifest.03a3ae212fa689e03d22f7ab62dbb7bb.js": "/geekracingtattoo/precache-manifest.03a3ae212fa689e03d22f7ab62dbb7bb.js",
+    "precache-manifest.25392c6b19964847f74df0f6bd5840e9.js": "/geekracingtattoo/precache-manifest.25392c6b19964847f74df0f6bd5840e9.js",
     "service-worker.js": "/geekracingtattoo/service-worker.js",
-    "static/css/2.0cdb9ae6.chunk.css.map": "/geekracingtattoo/static/css/2.0cdb9ae6.chunk.css.map",
-    "static/css/main.e6b9b06c.chunk.css.map": "/geekracingtattoo/static/css/main.e6b9b06c.chunk.css.map",
+    "static/css/2.289c7550.chunk.css.map": "/geekracingtattoo/static/css/2.289c7550.chunk.css.map",
+    "static/css/main.061c3823.chunk.css.map": "/geekracingtattoo/static/css/main.061c3823.chunk.css.map",
     "static/media/logo.svg": "/geekracingtattoo/static/media/logo.5d5d9eef.svg"
   }
 }
