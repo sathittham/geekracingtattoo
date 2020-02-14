@@ -4,7 +4,7 @@ const siteConfig = {
     siteName: 'GeekRunners',
     siteIcon: geekRunnersLogo, // //'ion-flash',
     footerText: 'GeekRunners-GeekRacing ©2020 Created by GeekRunners.com',
-    version: '(0.1.1(1) beta)',
+    version: '(0.1.1(2) beta)',
     DEBUG: false, //false, true
   };
 

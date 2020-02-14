@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
-import { Input, Select, Button, Form, TimePicker, Row, Col } from "antd";
+import { Input, Select, Button, Form, TimePicker, Row, Col, Avatar } from "antd";
 import { siteConfig } from "../../settings";
 import PreviewTattoo from './previewTattoo';
+import { colorTheme, distance } from './utils'
 
 var moment = require("moment");
 require("moment/locale/th.js");
@@ -19,7 +20,7 @@ class generatorForm extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            userTextMax: 15,
+            userTextMax: 12,
             data: '',
         }
     }
@@ -58,7 +59,7 @@ class generatorForm extends Component {
     onChange(time, timeString) {
         DEBUG && console.log(time, timeString);
     }
-
+        
 
     /****** RENDER FUNCTIONS ******/
     render() {
@@ -82,29 +83,13 @@ class generatorForm extends Component {
             },
         };
 
-        const distance = [
-            {
-                label: '5km',
-                value: '5.00'
-            },
-            {
-                label: '10km',
-                value: '10.00'
-            },
-            {
-                label: 'Half Marathon (21.10km)',
-                value: '21.10'
-            },
-            {
-                label: 'Marathon (42.20km)',
-                value: '42.20'
-            },
-        ]
+       
 
         // Only show error after a field is touched.
         const userTextError = isFieldTouched("userText") && getFieldError("userText");
         const userDistanceError = isFieldTouched("userDistance") && getFieldError("userDistance");
         const userTimeError = isFieldTouched("userTime") && getFieldError("userTime");
+        const userColorThemeError = isFieldTouched("userColorTheme") && getFieldError("userColorTheme");
 
         return (
             <div>
@@ -153,7 +138,7 @@ class generatorForm extends Component {
                                         placeholder="ระยะทาง"
                                     >
                                         {distance.map(item => (
-                                            <Option value={item.value}>
+                                            <Option value={item.value} key={item.key}>
                                                 {item.label}
                                             </Option>
                                         ))
@@ -180,6 +165,34 @@ class generatorForm extends Component {
                             </Form.Item>
 
                             <Form.Item
+                                label="สี"
+                                validateStatus={userColorThemeError ? "error" : ""}
+                                help={userColorThemeError || ""}
+                            >
+                                {getFieldDecorator("userColorTheme", {
+                                    initialValue: '#7FFFD4',
+                                    rules: [
+                                        {
+                                            required: true,
+                                            message: "ระบุสี"
+                                        }
+                                    ]
+                                })(
+                                    <Select placeholder="สี">
+                                        {colorTheme.map(item => (
+                                            <Option value={item.colorCode} key={item.key}>
+                                                <span style={{ marginRight: 6 }}>
+                                                    <Avatar shape="square" size={24} style={{ backgroundColor: item.colorCode}}/>
+                                                </span>
+                                                {item.label}
+                                            </Option>
+                                        ))
+                                        }
+                                    </Select>
+                                )}
+                            </Form.Item>
+
+                            {/* <Form.Item
                                 wrapperCol={{
                                     xs: { span: 24, offset: 0 },
                                     sm: { span: 16, offset: 5 },
@@ -193,8 +206,9 @@ class generatorForm extends Component {
                                     disabled={hasErrors(getFieldsError() || this.props.form.getFieldValue("userTime").format('HH:mm:ss') === '00:00:00')}
                                 >
                                     สร้าง Pace Tattoo
-                        </Button>
-                            </Form.Item>
+                                </Button>
+                            </Form.Item> */}
+
                         </Form>
                     </Col>
 

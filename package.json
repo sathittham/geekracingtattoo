@@ -1,12 +1,13 @@
 {
   "homepage": "http://sathittham.github.io/geekracingtattoo",
-  "name": "urbanice-niti-parcel-offiline",
+  "name": "geek-racing-tattoo",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
     "antd": "^3.19.7",
     "dexie": "^2.0.4",
     "gh-pages": "^2.2.0",
+    "html2canvas": "^1.0.0-rc.5",
     "moment-duration-format": "^2.3.2",
     "pdfmake": "^0.1.57",
     "react": "^16.8.6",
@@ -16,6 +17,8 @@
     "styled-components": "^4.3.2"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

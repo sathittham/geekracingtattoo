@@ -11,22 +11,42 @@
 }
 
 .ant-table-title {
- background-color: #fff;
-    padding: 0 !important;
+  background-color: #fff;
+  padding: 0 !important;
 }
 
-.ant-table-row  .ant-table-row-level-0 {
+.ant-table-small{
+    border-color: blue !important;
+    border-style: none !important;
+    border-width: 1px !important;
+}
+.ant-table-row  {
+    padding: 0 !important;
+    border-style: none !important;
+  }
+
+td{
     padding: 0 !important;
   }
 
-  td{
-    padding: 0 !important;
-  }
+.ant-table-row-indent{
+    border-style: none !important;
+  } 
 
-  th{
+th{
     padding: 0 !important;
     background-color: #fff !important;
     text-align: center !important;
     font-size: 10px;
   }
   
+#tattooBox {
+    width:200px;
+    /* height:300px; */
+    border-style: none;
+    border-width: 1px;
+  }
+  canvas {
+      max-width: 100%;
+      max-height: 100%;
+  }

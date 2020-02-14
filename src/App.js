@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from './logo.svg';
 import './App.css';
-import Parcel from './containers/parcel';
+import tattooGenerator from './containers/tattooGenerator';
 import {
   BrowserRouter as Router,
   Route,
@@ -25,8 +25,8 @@ function App() {
           Learn React
         </a> */}
         <Router>
-          <Link to="/parcel">Parcel</Link>
-          <Route path="/parcel" component={Parcel} />
+          <Link to="/tattooGenerator">tattooGenerator</Link>
+          <Route path="/tattooGenerator" component={tattooGenerator} />
         </Router>
       </header>
     </div>
