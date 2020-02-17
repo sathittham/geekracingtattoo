@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/geekracingtattoo/precache-manifest.2931d044ae91a96a86a6de3f7d6a3f91.js"
+  "/geekracingtattoo/precache-manifest.660970937b02a505be852ae2299ba035.js"
 );
 
 self.addEventListener('message', (event) => {
