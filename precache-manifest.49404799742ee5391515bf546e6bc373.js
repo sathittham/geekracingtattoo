@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "749d1770c4cb94037de18ccaf3916277",
+    "revision": "c84c4d9bd77a5ded7e78f7529f043d3b",
     "url": "/geekracingtattoo/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/geekracingtattoo/static/css/2.289c7550.chunk.css"
   },
   {
-    "revision": "b9a5cb212c6fec51cefa",
+    "revision": "2a09194f34f611ff8adb",
     "url": "/geekracingtattoo/static/css/main.061c3823.chunk.css"
   },
   {
@@ -16,8 +16,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/geekracingtattoo/static/js/2.7bfd27e4.chunk.js"
   },
   {
-    "revision": "b9a5cb212c6fec51cefa",
-    "url": "/geekracingtattoo/static/js/main.35b7aa06.chunk.js"
+    "revision": "2a09194f34f611ff8adb",
+    "url": "/geekracingtattoo/static/js/main.6d261808.chunk.js"
   },
   {
     "revision": "e3971393a73b5dae9214",
